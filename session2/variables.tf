@@ -26,6 +26,11 @@ variable displayname {
     default = "RD-Default-VM"
 }
 
+variable ins_count {
+    type = string
+    default = "1"
+}
+
 variable shape {
     type = string
     default = "VM.Standard2.2"
