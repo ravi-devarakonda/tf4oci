@@ -41,5 +41,6 @@ variable subnet_details {
     default = {
         kmc_public_sn1 = "172.16.0.0/24"
         kmc_public_sn2 = "172.16.1.0/24"
+        kmc_piblic_sn3 = "172.16.2.0/24"
     }
 }

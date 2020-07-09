@@ -21,5 +21,18 @@ resource "oci_core_security_list" "kmc_sl_public" {
       min = 22
       max = 22
     }
+
+  }
+    ingress_security_rules {
+    protocol  = "6"         // tcp
+    source    = "0.0.0.0/0"
+    stateless = false
+
+    tcp_options {
+    // These values correspond to the destination port range.
+      min = 3389
+      max = 3389
+    }
+
   }
  }
