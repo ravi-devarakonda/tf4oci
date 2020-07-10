@@ -36,7 +36,5 @@ resource "oci_core_security_list" "kmc_sl_public" {
       min = 22
       max = 22
     }
-
   }
-
 }

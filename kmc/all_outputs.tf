@@ -16,3 +16,10 @@ output "VCN_Details" {
     VCN_domain_name = module.create_network.vcn_details.vcn_domain_name
   }
 }
+
+output "oth_nw_details" {
+  value = {
+    sl_ids = module.create_network.sec_list_details["sl1"].id
+    rt_ids = module.create_network.route_table_details["rt1"].id
+  }
+}

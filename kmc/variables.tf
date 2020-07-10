@@ -7,7 +7,7 @@
 
 variable config_file_profile {
   type    = string
-  default = "KMCPROD"
+  default = "NATIONAL02"
 }
 
 # Identity
@@ -20,8 +20,9 @@ variable compartment_name {
     default = "Terraform_LAB"
 } */
 variable compartment_id {
-  type    = string
-  default = "ocid1.compartment.oc1..aaaaaaaatxy4ktw5wh7i4cl2xlb26ygaamcvjq6o5brgano5fdwifi7qgbrq"
+  type = string
+  #default = "ocid1.compartment.oc1..aaaaaaaatxy4ktw5wh7i4cl2xlb26ygaamcvjq6o5brgano5fdwifi7qgbrq"
+  default = "ocid1.compartment.oc1..aaaaaaaac4zmgwwe2pg2iraydy7lutqyugj22udiku5feq6inwfcrg6lyaja"
 }
 
 # Network

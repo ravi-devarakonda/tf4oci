@@ -19,7 +19,7 @@ resource "oci_core_nat_gateway" "kmc_nat_gateway" {
 }
 
 # DRG
-resource "oci_core_drg" "kmc_drg" {
+/* resource "oci_core_drg" "kmc_drg" {
   #Required
   compartment_id = var.vcn_compartment_id
 
@@ -35,7 +35,7 @@ resource "oci_core_drg_attachment" "kmc_drg_attachment" {
   #Optional
   display_name = "kmc-drg-attachment-${oci_core_vcn.kmc_vcn.display_name}"
 }
-
+ */
 #SGW
 data "oci_core_services" "kmc_services" {
 }
