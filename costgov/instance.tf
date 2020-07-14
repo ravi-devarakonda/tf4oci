@@ -37,9 +37,7 @@ resource "oci_core_instance" "app-instance" {
   timeouts {
     create = "60m"
   }
-  
-  #freeform_tags = var.freeform_tags
-  #defined_tags = merge(var.defined_tags,{"CostGov.enable"= "true"})
+  #
   freeform_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].freeform_tags
   defined_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].defined_tags
 }

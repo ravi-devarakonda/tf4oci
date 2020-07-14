@@ -1,5 +1,3 @@
-
-
 locals {
   all_cidr            = "0.0.0.0/0"
   use_existing_vcn = var.use_existing_vcn
@@ -12,14 +10,7 @@ resource "oci_core_vcn" "vcn" {
   compartment_id = var.compartment_ocid
   display_name   = "${var.display_name_prefix}-vcn"
   dns_label      = "costvcn"
-  # freeform_tags = {
-  #   "${merge(local.common_freeform_tags)}"
-  # }
-  # defined_tags = {
-  #   "${merge(local.common_def_tags)}"
-  # }
-  #freeform_tags = var.freeform_tags
-  #defined_tags = var.defined_tags
+  #
   freeform_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].freeform_tags
   defined_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].defined_tags
 }
@@ -41,14 +32,7 @@ resource "oci_core_internet_gateway" "internet_gateway" {
   compartment_id = local.vcn_compartment_id
   display_name   = "${var.display_name_prefix}-internet-gateway"
   vcn_id         = local.vcn_id
-  # freeform_tags = {
-  #   "${merge(local.common_freeform_tags)}"
-  # }
-  # defined_tags = {
-  #   "${merge(local.common_def_tags)}"
-  # }
-  #freeform_tags = var.freeform_tags
-  #defined_tags = var.defined_tags
+  #
   freeform_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].freeform_tags
   defined_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].defined_tags
 }
@@ -57,16 +41,10 @@ resource "oci_core_default_route_table" "default_route_table" {
   count          = local.use_existing_vcn ? 0 : 1
   manage_default_resource_id = local.route_table_id
   display_name               = "${var.display_name_prefix}-internet-route-table"
-
-  # freeform_tags = {
-  #   "${merge(local.common_freeform_tags)}"
-  # }
-  # defined_tags = {
-  #   "${merge(local.common_def_tags)}"
-  # }
-
+  # 
   freeform_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].freeform_tags
   defined_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].defined_tags
+  #
   route_rules {
     destination       = local.all_cidr
     destination_type  = "CIDR_BLOCK"
@@ -88,16 +66,10 @@ resource "oci_core_security_list" "bastion" {
   compartment_id = local.vcn_compartment_id
   vcn_id         = local.vcn_id
   display_name   = "${var.display_name_prefix}-bastion"
-  # freeform_tags = {
-  #   "${merge(local.common_freeform_tags)}"
-  # }
-  # defined_tags = {
-  #   "${merge(local.common_def_tags)}"
-  # }
-  #freeform_tags = var.freeform_tags
-  #defined_tags = var.defined_tags
+  #
   freeform_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].freeform_tags
   defined_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].defined_tags
+  #
   ingress_security_rules {
     protocol  = "6"         // tcp
     source    = local.all_cidr
@@ -164,14 +136,7 @@ resource "oci_core_subnet" "subnet" {
   vcn_id              = local.vcn_id
   route_table_id      = local.route_table_id
   dhcp_options_id     = local.dhcp_options_id
-  # freeform_tags = {
-  #   "${merge(local.common_freeform_tags)}"
-  # }
-  # defined_tags = {
-  #   "${merge(local.common_def_tags)}"
-  # }
-  #freeform_tags = var.freeform_tags
-  #defined_tags = var.defined_tags
+  #
   freeform_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].freeform_tags
   defined_tags = data.oci_resourcemanager_stacks.mp_stack.stacks[0].defined_tags
 }
