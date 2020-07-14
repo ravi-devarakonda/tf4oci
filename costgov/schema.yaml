@@ -1,0 +1,265 @@
+title: Oracle Cost Governance
+description: Oracle Cost Governance on Oracle Cloud Infrastructure
+schemaVersion: 1.1.0
+version: "20190304"
+locale: "en"
+
+# URL of Logo Icon used on Application Information tab. Logo must be 130x130 pixels.
+# (Optional)
+logoUrl: https://cloudmarketplace.oracle.com/marketplace/content?contentId=63497741
+
+# Used in Application Information tab to Hyperlink Title and Logo to the Marketplace listing.
+# Also used to link to Listing Usage section for "View Instructions".
+# (Optional) If it is missing, Application Information uses the
+# "marketplace-listing-id" tag for the same purpose.
+source:
+  type: marketplace
+  reference: 63497640
+
+groupings:
+- title: "General Settings"
+  variables:
+  - ${stack_displayname}
+  - ${compartment_ocid}
+
+
+
+
+- title: "Network Configuration"
+  variables:
+    - ${use_existing_vcn}
+    - ${existing_vcn_compartment_id}
+    - ${vcn_cidr}
+    - ${existing_vcn_id}
+    - ${subnet_cidr}
+    - ${existing_subnet_compartment_id}
+    - ${existing_subnet_id}
+    - ${show_advanced_options}
+
+
+
+- title: "Database Configuration"
+  variables:
+  - ${db_name}
+  - ${db_compartment_id}
+  - ${db_admin_password}
+  - ${db_wallet_password}
+  - ${db_license_model}
+
+- title: "Instance Configuration"
+  variables:
+  - ${ssh_public_key}
+
+# - title: "Tag"
+#   variables:
+#     - ${defined_tags}
+#     - ${freeform_tags}
+
+variables:
+  # General Configuration
+  tenancy_ocid:
+    title: Tenancy ID
+    description: The Oracle Cloud Identifier (OCID) for your tenancy
+    type: string
+    required: true
+    visible: false
+  
+  stack_displayname:
+     title: Stack Display Name
+     description: Please copy/paste the display name, you gave for the Stack in the previous screen
+     type: string
+     required: true
+
+  region:
+    title: Region
+    description: The region in which to create all resources
+    type: oci:identity:region:name
+    required: true
+    visible: false
+
+  compartment_ocid:
+    title: Target Compartment
+    description: The target compartment in which all provisioned resources will be created.
+    type: oci:identity:compartment:id
+    required: true
+
+  user_ocid:
+    title: User ID
+    description: The Oracle Cloud Identifier (OCID) for the user
+    type: string
+    visible: false
+
+  fingerprint:
+    title: Private Key Fingerprint
+    type: string
+    visible: false
+
+  
+
+
+  # Database options
+
+  db_name:
+    title: Database Name
+    description: Provide DB name
+    required: true
+    type: string
+    maxLength: 14
+
+  db_compartment_id:
+    title: Target database compartment
+    description: Select the compartment in which the ADW should be provisioned
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  db_admin_password:
+    description: Provide admin Password. Note Please dont include any special characters in the password field. Minimum 12 characters, at least one uppercase letter, one lowercase letter, one number.
+    type: password
+    required: true
+    pattern: ((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*[%!@#$^&*)(]).{12,20})
+
+  db_wallet_password:
+    description: Provide wallet Password. Note Please dont include any special characters in the password field. Minimum 12 characters, at least one uppercase letter, one lowercase letter, one number.
+    type: password
+    required: true
+    pattern: ((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*[%!@#$^&*()]).{12,20})
+
+
+  db_license_model:
+    title: Database License
+    type: enum
+    enum:
+    - LICENSE_INCLUDED
+    - BRING_YOUR_OWN_LICENSE
+    default: BRING_YOUR_OWN_LICENSE
+    required: true
+
+  
+
+  # freeform_tags:
+  #   title: Freeform Tags
+  #   type: string
+  #   required: false
+  #   description: Enter Value for freeform tag value in this format {"tagkey1":"tagvalue1", "tagkey2":"tagvalue2"}.
+  
+  # defined_tags:
+  #   title: Defined Tags
+  #   type: string
+  #   required: false
+  #   description: Enter Value for default tag value in this format {"namespace.tagkey1":"tagvalue1", "namespace.tagkey2":"tagvalue2"}.
+
+
+
+  # Network Configuration
+  use_existing_vcn:
+    title: Use Existing Network
+    description: Select this option to support deployment of Cost governance application into an existing virtual cloud network (VCN). 
+    type: boolean
+    default: false
+    
+
+  vcn_cidr:
+    title: Virtual Network CIDR
+    description: The CIDR to assign to the new virtual cloud network (VCN) to create for this service.
+    visible:
+      and:
+      - ${show_advanced_options}
+      - not:
+        - ${use_existing_vcn}
+    type: string
+    default: 10.0.0.0/16
+    pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
+    required: true
+
+  subnet_cidr:
+    title: Application Subnet CIDR
+    description: The CIDR to assign to the subnet for the target Cost gov compute node. This will be created as a regional subnet.
+    visible:
+      and:
+      - ${show_advanced_options}
+      - not:
+        - ${use_existing_vcn}
+    type: string
+    default: 10.0.1.0/24
+    pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
+    required: true
+
+  show_advanced_options:
+    title: Show Advanced Options
+    description: Enable advanced options on this page.
+    type: boolean
+    default: false
+    visible: 
+      - not:
+        - ${use_existing_vcn}
+
+  existing_vcn_compartment_id:
+    title: Target network compartment
+    description: Select the compartment containing the target VCN.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    visible: ${use_existing_vcn}
+    required: true
+
+  existing_vcn_id:
+    title: Select Virtual Network
+    description: Select an existing VCN in which to create the compute resources.
+    type: oci:core:vcn:id
+    visible: ${use_existing_vcn}
+    dependsOn:
+      compartmentId: ${existing_vcn_compartment_id}
+    required: true
+
+  existing_subnet_compartment_id:
+    title: Target application subnet compartment
+    description: Select the compartment containing the target application subnet.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    visible: ${use_existing_vcn}
+    required: true
+
+  existing_subnet_id:
+    title: Select Application Subnet
+    description: Select an existing subnet for the target application instance.
+    type: oci:core:subnet:id
+    visible: ${use_existing_vcn}
+    dependsOn:
+      compartmentId: ${existing_subnet_compartment_id}
+      vcnId: ${existing_vcn_id}
+      hidePrivateSubnet: true
+    required: true
+
+  # Instance Configuration
+
+  ssh_public_key:
+    title: SSH Public Key
+    description: Use the corresponding private key to access the application compute instance for debugging.
+    type: string
+    required: true
+
+  myRegion:
+    type: oci:identity:region:name
+    visible: false
+
+outputs:
+  Instructions:
+    type: string
+    title: Instructions
+  Apex_URL:
+    type: string
+    title: Apex URL
+  
+  
+  
+
+outputGroups:
+- title: Application
+  outputs:
+    - ${Instructions}
+    - ${Apex_URL}
+    
+
+
+# primaryOutputButton: ${essbase_external_url}
+
