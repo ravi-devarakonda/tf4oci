@@ -13,12 +13,12 @@ variable region {
 
 variable compartment {
   type    = string
-  default = "ocid1.compartment.oc1..aaaaaaaadk2lcuzqspj4jj6wts43mjimym5qrhqqt6nzcz6hqrehjjzungxq"
+  default = "ocid1.compartment.oc1..aaaaaaaa2msdfh2g3n4s6fadsvl2thelw5gtnwhbcsqwcgfg2hcsk7mjc3ya"
 }
 
 variable subnet_id {
   type    = string
-  default = "ocid1.subnet.oc1.iad.aaaaaaaaw737zp2ily2vh2zngv4zwfaej64j337xvzwdj2hnc7wd2dku52sq"
+  default = "ocid1.subnet.oc1.iad.aaaaaaaal4cvjywvkqlmsoz7x2gfs73zcx2xdfddrbboyp5gcdpp33vxcxaa"
 }
 
 variable ins_count {
@@ -28,7 +28,7 @@ variable ins_count {
 
 variable image_id {
   type    = string
-  default = "ocid1.image.oc1.iad.aaaaaaaahjkmmew2pjrcpylaf6zdddtom6xjnazwptervti35keqd4fdylca"
+  default = "ocid1.image.oc1.iad.aaaaaaaawufnve5jxze4xf7orejupw5iq3pms6cuadzjc7klojix6vmk42va"
 }
 
 variable "this_instance_properties" {
