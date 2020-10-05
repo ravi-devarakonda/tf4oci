@@ -1,9 +1,14 @@
+#auth variables
 variable tenancy_ocid {}
 variable user_ocid {}
 variable fingerprint {}
 variable private_key_path {}
 variable region {}
-variable ssh_public_key {}
+
+#env variables
+variable compartment_id {}
+variable image_id {}
+variable subnet_id {}
 
 terraform {
   required_providers {
@@ -20,7 +25,6 @@ provider "oci" {
   user_ocid = var.user_ocid
   fingerprint = var.fingerprint
   private_key_path = var.private_key_path
-  #auth = "InstancePrincipal"
   region = var.region
 }
 
@@ -32,20 +36,20 @@ data "oci_identity_availability_domains" "ads" {
 resource "oci_core_instance" "test_instance" {
     #Required
     availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-    compartment_id = "ocid1.compartment.oc1..aaaaaaaa2msdfh2g3n4s6fadsvl2thelw5gtnwhbcsqwcgfg2hcsk7mjc3ya"
-    shape = "VM.Standard2.2"
+    compartment_id = var.compartment_id
+    shape = "VM.Standard2.1"
     display_name = "RD-TEST-02"
 
     create_vnic_details {
         #Required
-        subnet_id = "ocid1.subnet.oc1.iad.aaaaaaaal4cvjywvkqlmsoz7x2gfs73zcx2xdfddrbboyp5gcdpp33vxcxaa"
+        subnet_id = var.subnet_id
     }
     metadata = {
-        ssh_authorized_keys = var.ssh_public_key
+        ssh_authorized_keys = file("/home/opc/.ssh/id_rsa.pub")
     }
     source_details {
         #Required
-        source_id = "ocid1.image.oc1.iad.aaaaaaaawufnve5jxze4xf7orejupw5iq3pms6cuadzjc7klojix6vmk42va"
+        source_id = var.image_id
         source_type = "image"
     }
     preserve_boot_volume = false

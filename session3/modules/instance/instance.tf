@@ -4,7 +4,6 @@ variable shape {}
 variable displayname {}
 variable ins_count {}
 variable subnet_id {}
-variable ssh_public_key {}
 variable image_id {}
 variable assign_public_ip {
     default = "false"
@@ -25,7 +24,7 @@ resource "oci_core_instance" "test_instance" {
     hostname_label = "${var.displayname}-${count.index + 1}"
   }
   metadata = {
-    ssh_authorized_keys = var.ssh_public_key
+    ssh_authorized_keys = file("/home/opc/.ssh/id_rsa.pub")
   }
   source_details {
     #Required
