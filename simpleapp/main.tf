@@ -13,8 +13,8 @@ resource "oci_core_instance" "test_instance" {
     hostname_label = "${var.displayname}-${count.index + 1}"
   }
   metadata = {
-    ssh_authorized_keys = var.ssh_public_key
-    user_data           = "${base64encode(file("./userdata/bootstrap"))}"
+    ssh_authorized_keys = file("/home/opc/.ssh/id_rsa.pub")
+    user_data           = base64encode(file("./userdata/bootstrap"))
   }
   source_details {
     #Required
