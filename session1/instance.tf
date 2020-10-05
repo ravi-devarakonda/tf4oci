@@ -6,7 +6,7 @@ variable private_key_path {}
 variable region {}
 
 #env variables
-variable compartment_id {}
+variable compartment {}
 variable image_id {}
 variable subnet_id {}
 
@@ -36,7 +36,7 @@ data "oci_identity_availability_domains" "ads" {
 resource "oci_core_instance" "test_instance" {
     #Required
     availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-    compartment_id = var.compartment_id
+    compartment_id = var.compartment
     shape = "VM.Standard2.1"
     display_name = "RD-TEST-02"
 
