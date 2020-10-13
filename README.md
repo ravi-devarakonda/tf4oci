@@ -5,7 +5,7 @@ Terraform scripts coded/used during the course of training
 1. terraform installed and added to path. If not installed, Download from [here](https://www.terraform.io/downloads.html) 
 2. OCI Provider. Automatically downloaded during `terraform init`.
 ## How to use
-- clone the repo to you local machine
+- clone the repo to your work station. Preferably an Oracle Linux server on OCI (session 3 uses InstancePrincipal which needs a machine on OCI)
 - `cd` to session* directory to run scripts from a particular session
 - make sure to either:
     - add a `terraform.tfvars` file in the directory (see [OCI TFVARS](https://registry.terraform.io/modules/oracle-terraform-modules/compute-instance/oci/2.0.1/examples/instance_default) ) or 
